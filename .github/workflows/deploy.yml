@@ -24,6 +24,8 @@ jobs:
         ssh -o StrictHostKeyChecking=no eduardolfalcao@34.29.9.105 "
           cd /home/eduardolfalcao/pes &&
           git pull &&
+          python3 -m venv venv &&
+          source venv/bin/activate &&
           pip install -r requirements.txt &&
           python3 calc.py
         "
