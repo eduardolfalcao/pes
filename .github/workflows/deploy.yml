@@ -1,0 +1,30 @@
+name: Deploy to VM
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up SSH
+      run: |
+        mkdir -p ~/.ssh
+        echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+
+    - name: Deploy to VM
+      run: |
+        ssh -o StrictHostKeyChecking=no eduardolfalcao@34.29.9.105 "
+          cd /home/eduardolfalcao/pes &&
+          git pull &&
+          pip install -r requirements.txt &&
+          python3 calc.py
+        "
+
